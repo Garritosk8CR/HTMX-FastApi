@@ -17,7 +17,9 @@ async def index(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
 @app.get('/todos', response_class=HTMLResponse)
-async def todos(request: Request):
+async def todos(request: Request, hx_request: Annotated[Union[str, None], Header()] = None):
+    if hx_request:
+        return templates.TemplateResponse("todos.html", {"request": request, "todos": todos})
     return JSONResponse(content=jsonable_encoder(todos))
 
 
