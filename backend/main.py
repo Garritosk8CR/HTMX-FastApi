@@ -22,6 +22,14 @@ async def todos(request: Request, hx_request: Annotated[Union[str, None], Header
         return templates.TemplateResponse("todos.html", {"request": request, "todos": todos})
     return JSONResponse(content=jsonable_encoder(todos))
 
+@app.put('/todos/{todo_id}', response_class=HTMLResponse)
+async def update_todo(todo_id: str, request: Request, text: Annotated[str, Form()]):
+    for index, todo in enumerate(todos):
+        if str(todo.id) == todo_id:
+            todo.txt = text
+            break
+    return templates.TemplateResponse("todos.html", {"request": request, "todos": todos})
+
 @app.post('/todos', response_class=HTMLResponse)
 async def add_todo(request: Request, todo: Annotated[str, Form()]):  
     if todo:
