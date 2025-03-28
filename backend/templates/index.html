@@ -9,6 +9,10 @@
 </head>
 <body>
     <p>Fullstack HTMX & FastAPI</p>
+    <form hx-post="/todo" hx-target="#todos" hx-swap="innerHTML" hx-on:htmx:after-request="this.reset()" hx-trigger="submit">
+        <input type="text" name="todo">
+        <button>Add Todo</button>
+    </form>
     <ul id="todos" hx-get="/todos" hx-trigger="load" hx-swap="innerHTML">
 
     </ul>

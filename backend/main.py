@@ -23,7 +23,7 @@ async def todos(request: Request, hx_request: Annotated[Union[str, None], Header
     return JSONResponse(content=jsonable_encoder(todos))
 
 @app.post('/todos', response_class=HTMLResponse)
-async def add_todo(request: Request, todo: Annotated[Union[str, None], Header()] = None):  
+async def add_todo(request: Request, todo: Annotated[str, Form()]):  
     if todo:
         todos.append(TODO(todo))
     return templates.TemplateResponse("todos.html", {"request": request, "todos": todos})
